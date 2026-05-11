@@ -31,5 +31,14 @@ def ai_analyze(text):
         
         """
     )
-    parsed = response.text
-    return parsed
+    try:
+        parsed = json.loads(response.text)
+        return parsed
+    except json.JSONDecodeError:
+            return {
+                "skills": [],
+                "strengths": [],
+                "weaknesses": [],
+                "suggestions": [],
+                "score": 0
+            }
