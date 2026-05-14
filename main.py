@@ -1,3 +1,8 @@
 import ai
+from fastapi import FastAPI, UploadFile, File
 
-print(ai.ai_analyze())
+app = FastAPI()
+@app.post("/analyze")
+@app.get("/")
+async def read_main():
+    return {"msg": "Hello World"}

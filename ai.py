@@ -41,4 +41,5 @@ def ai_analyze(text):
                 "weaknesses": [],
                 "suggestions": [],
                 "score": 0
+                
             }
