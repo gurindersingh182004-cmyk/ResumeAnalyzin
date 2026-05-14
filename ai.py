@@ -35,11 +35,36 @@ def ai_analyze(text):
         parsed = json.loads(response.text)
         return parsed
     except json.JSONDecodeError:
+        fix_response = client.models.generate_content(
+            model="gemini-1.5-flash-latest",
+            contents=f"""
+    Fix this output into VALID JSON ONLY.
+
+    Return ONLY this structure:
+    {{
+    "skills": [],
+    "strengths": [],
+    "weaknesses": [],
+    "suggestions": [],
+    "score": 0
+    }}
+
+    Do NOT add explanations. Do NOT change keys.
+
+    Bad output:
+    {response.text}
+    """
+        )
+
+        try:
+            return json.loads(fix_response.text)
+
+        except json.JSONDecodeError:
             return {
                 "skills": [],
                 "strengths": [],
                 "weaknesses": [],
                 "suggestions": [],
                 "score": 0
-                
             }
+
