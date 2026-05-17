@@ -1,9 +1,13 @@
 from google import genai
 import json
 
-
+## put your api key here, don't just run with key
 client = genai.Client(api_key="key")
 
+
+## This func contains the promp that would analyze and retun a json
+## param = text->text that is extracted from the file 
+## return = json of all the skills that are in here
 def ai_analyze(text):
     response = client.models.generate_content(
         model="gemini-flash-latest",
@@ -34,7 +38,7 @@ def ai_analyze(text):
     try:
         parsed = json.loads(response.text)
         return parsed
-    except json.JSONDecodeError:
+    except json.JSONDecodeError:# this is just doing it again if gemnai messes up 
         fix_response = client.models.generate_content(
             model="gemini-1.5-flash-latest",
             contents=f"""
@@ -59,7 +63,7 @@ def ai_analyze(text):
         try:
             return json.loads(fix_response.text)
 
-        except json.JSONDecodeError:
+        except json.JSONDecodeError:#returing a empty json if all operations fail
             return {
                 "skills": [],
                 "strengths": [],
