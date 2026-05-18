@@ -1,12 +1,7 @@
 from PyPDF2 import PdfReader
 import io
 
-
-
-def parse_pdf(file):
-    pdf_stream = io.BytesIO(file)
-
-
+##This function takes in a pdf and reads it to give out the text
 def parse_pdf(file):
     pdf_stream = io.BytesIO(file)
     
@@ -18,5 +13,5 @@ def parse_pdf(file):
     for page in reader.pages:
         text += page.extract_text() or ""
 
-    text = text[:3000]
+    text = text[:3000]## limiting the chars here 
     return text
